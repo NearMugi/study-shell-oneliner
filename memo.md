@@ -88,6 +88,8 @@ seq 100 | grep -E '^(.)\1$' | xargs
 
 ## P21 : grepによる切り出し
 
+オプションの```-o```は一致するものを切り出す指定
+
 ```bash
 word="中村 山田 田代 上田"
 # [^ ]田 はスペースではない１文字の後ろに田が付くという意味
@@ -110,6 +112,11 @@ sudo apt install gawk
 ## P23 : awk
 
 ``` bash
+# 1~5
+seq 5
+# 1~5 を表示
+seq 5 | awk '{print "value:" $1}'
+
 # 1~5 のうち、2,4を出力する
 seq 5 | awk '/[24]/'
 seq 5 | awk '$1%2==0'
@@ -117,8 +124,11 @@ seq 5 | awk '$1%2==0{print $1,"偶数"}'
 seq 5 | awk '$1%2==0{printf("%s 偶数\n", $1)}'
 
 # 偶数、奇数で出力を変える
-seq 5 | awk '$1%2==0{print $1,"偶数"}$1%2==1{print $1,"奇数"}'
-seq 5 | awk 'BEGIN{a=0}$1%2==0{print $1,"偶数"}$1%2==1{print $1,"奇数"}{a+=$1}END{print "合計",a}'
+seq 5 | awk '$1%2==0{print $1,"偶数"} $1%2==1{print $1,"奇数"}'
+# 合計も出力する
+seq 5 | awk 'BEGIN{a=0} $1%2==0{print $1,"偶数"} $1%2==1{print $1,"奇数"} {a+=$1} END {print "合計",a}'
+# BEGIN で行っているaの初期化は省略できる
+seq 5 | awk '$1%2==0{print $1,"偶数"} $1%2==1{print $1,"奇数"} {a+=$1} END {print "合計",a}'
 
 
 ```
